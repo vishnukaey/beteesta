@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
+
 
 function Copyright() {
     return (
@@ -48,6 +49,61 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
     const classes = useStyles()
+    const [fName, setFName] = useState('');
+    const [lName, setLName] = useState('');
+    const [dName, setDName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [cpassword, setCpassword] = useState('');
+    const [phone, setPhone] = useState('');
+
+    const onChange = (event) => {
+        switch (event.target.id) {
+            case 'firstName':
+                setFName(event.target.value)
+                break;
+            case 'lastName':
+                setLName(event.target.value)
+                break;
+            case 'displayName':
+                setDName(event.target.value)
+                break;
+            case 'email':
+                setEmail(event.target.value)
+                break;
+            case 'password':
+                setPassword(event.target.value)
+                break;
+            case 'cpassword':
+                setCpassword(event.target.value)
+                break;
+            case 'phone':
+                setPhone(event.target.value)
+                break;
+            default:
+        }
+    }
+
+    const validate = (text, id) => {
+        switch (id) {
+            case 'firstName':
+                return !(text.length > 0)
+            case 'lastName':
+                return !(text.length > 0)
+            case 'displayName':
+                return !(text.length > 0)
+            case 'email':
+                return !(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(text))
+            case 'password':
+                return !(text.length > 5)
+            case 'cpassword':
+                return !((text.length > 0 && text === password))
+            case 'phone':
+                return !(text.length > 0)
+            default:
+                return false
+        }
+    }
 
     return (
         <Container component='main' maxWidth='xs'>
@@ -63,6 +119,8 @@ export default function SignUp() {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
+                                error={validate(fName, 'firstName')}
+                                onChange={onChange}
                                 autoComplete='fname'
                                 name='firstName'
                                 variant='outlined'
@@ -75,6 +133,8 @@ export default function SignUp() {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
+                                error={validate(lName, 'lastName')}
+                                onChange={onChange}
                                 variant='outlined'
                                 required
                                 fullWidth
@@ -86,17 +146,21 @@ export default function SignUp() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={validate(dName, 'displayName')}
+                                onChange={onChange}
                                 variant='outlined'
                                 required
                                 fullWidth
                                 id='displayName'
                                 label='Display Name'
                                 name='displayName'
-                                autoComplete='dname'
+                                autoComplete='displayName'
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={validate(email, 'email')}
+                                onChange={onChange}
                                 variant='outlined'
                                 required
                                 fullWidth
@@ -108,6 +172,8 @@ export default function SignUp() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={validate(password, 'password')}
+                                onChange={onChange}
                                 variant='outlined'
                                 required
                                 fullWidth
@@ -115,11 +181,27 @@ export default function SignUp() {
                                 label='Password'
                                 type='password'
                                 id='password'
-                                autoComplete='current-password'
+                            // autoComplete='current-password'
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={validate(cpassword, 'cpassword')}
+                                onChange={onChange}
+                                variant='outlined'
+                                required
+                                fullWidth
+                                name='cpassword'
+                                label='Confirm Password'
+                                type='cpassword'
+                                id='cpassword'
+                            // autoComplete='current-password'
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                error={validate(phone, 'phone')}
+                                onChange={onChange}
                                 variant='outlined'
                                 required
                                 fullWidth
